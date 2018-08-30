@@ -46,6 +46,17 @@ fn main() {
     let r1 = &s; // no problem
     let r2 = &s; // 不変参照は２つ作れる
     //let r3 = &mut s; // BIG PROBLEM: 不変参照が有効な間に可変参照を作ると死ぬ
+
+
+    let mut s = String::from("first byte");
+    let slice = first_word(&s[..]);
+    // s.clear(); // 不変参照を借り出しているので変更しようとするとコンパイルエラー
+    println!("first: {}", slice);
+
+    let literal = "hoge fuga";
+    let slice = first_word(literal); // 文字列リテラルは slice
+    println!("first: {}", slice);
+
 }
 
 fn takes_ownership(some_string: String) {
@@ -87,3 +98,27 @@ fn dangle() -> &String {
     &s
 } // ここで s のスコープを抜けるので &s は無効な参照となってしまう
 */
+
+/*
+// 型が狭いfirst_word関数
+fn first_word(s: &String) -> usize {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+    s.len()
+}
+*/
+
+// strもStringも受け取れるfirst_work関数
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+    &s[..]
+}
