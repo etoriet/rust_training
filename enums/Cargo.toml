@@ -1,0 +1,6 @@
+[package]
+name = "enums"
+version = "0.1.0"
+authors = ["eitaro.torii <eitaro.torii@exwzd.com>"]
+
+[dependencies]
