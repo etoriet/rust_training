@@ -122,8 +122,47 @@ fn main() {
         println!("{}", c); // 「と」「 ゙」が出力される
     }
 
-    let mut scores = HashMap::new();
+    let mut scores: HashMap<String, i32> = HashMap::new();
+
+    scores.insert(String::from("Red"), 50);
     scores.insert(String::from("Blue"), 10);
     scores.insert(String::from("White"), 30);
     println!("{:?}", scores);
+    println!("{}", scores.get("Red").unwrap_or(&1));
+
+    let teams = vec![String::from("B"), String::from("Y")];
+    let init_scores = vec![10, 50];
+    // 型注釈しないとcollectの型が決まらない
+    let scores: HashMap<&String, &i32> = teams.iter().zip(init_scores.iter()).collect();
+    // 以下にするとVecになる
+    //let scores: Vec<(_, _)> = teams.iter().zip(init_scores.iter()).collect();
+    println!("teams: {:?}", teams); // teamsの参照は奪っていない
+    println!("scores: {:?}", scores); // scoresには参照が入っている
+     // ので,unwrapするには,型を合わせるために参照の参照を渡す必要がある
+    println!("{}", scores.get(&String::from("B")).unwrap_or(&&0));
+
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("Blue");
+    let mut map = HashMap::new();
+    map.insert(field_name, field_value);
+    // println!("{}", field_name); moveされたのでコンパイルエラーになる
+
+    let field_name2 = String::from("Favorite color");
+    println!("before update: {}", map.get(&field_name2).unwrap_or(&field_name2));
+    map.insert(String::from("Favorite color"), String::from("Green"));
+    println!("after update:  {}", map.get(&field_name2).unwrap_or(&field_name2));
+
+    let mut scores = HashMap::new();
+    scores.insert(String::from("Blue"), 10);
+    scores.entry(String::from("Yellow")).or_insert(10);
+    scores.entry(String::from("Blue")).or_insert(50);
+    println!("{:?}", scores);
+
+    let text =  "hello world wonderful world";
+    let mut map = HashMap::new();
+    for word in text.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+    println!("{:?}", map);
 }
