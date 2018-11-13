@@ -1,4 +1,6 @@
-# Rust
+# Rustの練習
+
+https://y-yu.github.io/trpl-2nd-pdf/book.pdf
 
 
 # projectを作る
