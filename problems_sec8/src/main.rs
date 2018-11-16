@@ -1,9 +1,14 @@
 use std::io;
+use std::io::Write;
+
+mod stats;
+mod piglatin;
+mod employee;
 
 fn main() {
     loop {
         // switch problems
-        let command = read_command();
+        let command = read_command("command: ");
         let command: &str = &command;
         //println!("command: {}", command);
         if command == "exit" || command == "" {
@@ -13,25 +18,31 @@ fn main() {
 
         match command {
             "1" => problem1(),
-            // TODO problem 2: input word and output pig latin
-            "2" => println!("2"),
-            // TODO problem 3: text interface of employee administration. impl add/list commands
-            "3" => println!("3"),
+            "2" => problem2(),
+            "3" => problem3(),
             s => println!("unknown command: {}", s),
         }
     }
 }
 
-fn read_command() -> String {
+fn read_command(s: &str) -> String {
     let mut command = String::new();
     loop {
-        println!("command?: ");
+        print!("{}", s);
+        match io::stdout().flush() {
+            Err(e) => {
+                println!("input error: {:?}", e);
+                continue;
+            },
+            Ok(_) => {},
+        }
         match io::stdin().read_line(&mut command) {
             Ok(_) => {
                 return String::from(command.trim());
             },
             Err(e) => {
                 println!("input error: {:?}", e);
+                continue;
             },
         }
     };
@@ -60,7 +71,50 @@ fn problem1() {
     }
     let parsed = parsed.unwrap();
 
-    println!("{:?}", parsed);
+    println!("min/max {} / {}", stats::min(&parsed), stats::max(&parsed));
+    println!("mean/median/mode {:.3} / {:.3} / {}",
+        stats::mean(&parsed),
+        stats::median(&parsed),
+        stats::mode(&parsed)
+    );
+}
 
-    // TODO impl mean/median/mode
+// problem 2: input word and output pig latin
+fn problem2() {
+    let mut input = String::new();
+    println!("word?: ");
+    let read = io::stdin().read_line(&mut input);
+    if read.is_err() {
+        println!("{:?}", read.unwrap_err());
+        return;
+    }
+
+    for i in input.trim().split_whitespace() {
+        println!("{} -> {}", i, piglatin::piglatin(i));
+    }
+}
+
+// TODO problem 3: text interface of employee administration. impl add/list commands
+fn problem3() {
+    let mut db = employee::new();
+
+    loop {
+        // switch commands
+        let command_line = read_command("db> ");
+        let command_line: &str = &command_line;
+        if command_line == "exit" || command_line == "" {
+            println!("Bye");
+            return;
+        }
+        let command: Vec<&str> = command_line.split_whitespace().collect();
+
+        match command[0] {
+            "Add" => employee::add(&mut db, command[1..].to_vec()),
+            "List" => employee::list(&mut db, command[1..].to_vec()),
+            // List
+            // List
+            s => println!("unknown command: {}", s),
+        }
+    }
+
 }
