@@ -1,9 +1,9 @@
 3
 Add A to Engineering
-Add B to Engineering
 Add C to Engineering
-Add D to Sales
 Add E to Sales
-List members at Engineering
-List all members
+Add D to Sales
+Add B to Engineering
+List employees at Engineering
+List all employees
 exit

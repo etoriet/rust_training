@@ -109,10 +109,8 @@ fn problem3() {
         let command: Vec<&str> = command_line.split_whitespace().collect();
 
         match command[0] {
-            "Add" => employee::add(&mut db, command[1..].to_vec()),
-            "List" => employee::list(&mut db, command[1..].to_vec()),
-            // List
-            // List
+            "Add" => db = employee::add(db, command[1..].to_vec()),
+            "List" => employee::list(&db, command[1..].to_vec()),
             s => println!("unknown command: {}", s),
         }
     }
