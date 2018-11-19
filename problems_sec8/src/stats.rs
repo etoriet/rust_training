@@ -1,3 +1,4 @@
+use ::std;
 use std::collections::HashMap;
 
 pub fn min(vec: &Vec<i32>) -> i32 {
