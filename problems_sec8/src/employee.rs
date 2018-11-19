@@ -22,7 +22,7 @@ fn output(prefix: &str, employees: &Vec<String>) {
        println!("  {}", e);
     }
 }
-pub fn list(db: &HashMap<String, Vec<String>>, command_line: Vec<&str>) {
+pub fn list(db: &HashMap<String, Vec<String>>, command_line: &[&str]) {
     match command_line[0] {
         "all" => {
             let mut all = Vec::new();

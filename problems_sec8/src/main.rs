@@ -94,7 +94,7 @@ fn problem2() {
     }
 }
 
-// TODO problem 3: text interface of employee administration. impl add/list commands
+// problem 3: text interface of employee administration. impl add/list commands
 fn problem3() {
     let mut db = employee::new();
 
@@ -110,7 +110,7 @@ fn problem3() {
 
         match command[0] {
             "Add" => db = employee::add(db, command[1..].to_vec()),
-            "List" => employee::list(&db, command[1..].to_vec()),
+            "List" => employee::list(&db, &command[1..]),
             s => println!("unknown command: {}", s),
         }
     }
