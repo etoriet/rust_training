@@ -5,6 +5,8 @@ mod stats;
 mod piglatin;
 mod employee;
 
+use employee::Employee;
+
 fn main() {
     loop {
         // switch problems
@@ -96,7 +98,7 @@ fn problem2() {
 
 // problem 3: text interface of employee administration. impl add/list commands
 fn problem3() {
-    let mut db = employee::new();
+    let mut db = Employee::new();
 
     loop {
         // switch commands
@@ -109,8 +111,8 @@ fn problem3() {
         let command: Vec<&str> = command_line.split_whitespace().collect();
 
         match command[0] {
-            "Add" => db = employee::add(db, command[1..].to_vec()),
-            "List" => employee::list(&db, &command[1..]),
+            "Add" => db = db.add(&command[1..]),
+            "List" => db.list(&command[1..]),
             s => println!("unknown command: {}", s),
         }
     }
