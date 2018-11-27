@@ -19,14 +19,13 @@ pub fn median(vec: &Vec<i32>) -> f64 {
     vec.sort();
     let mid1 = vec.len() / 2;
     if vec.len() % 2 == 0 {
-        let mid2 = mid1 + 1;
-
-        ((vec[mid1] + vec[mid2]) as f64) / 2.0
+        ((vec[mid1 - 1] + vec[mid1]) as f64) / 2.0
     } else {
         vec[mid1] as f64
     }
 }
 
+// Bug: should return multiple values: mode may contain multiple
 pub fn mode(vec: &Vec<i32>) -> i32 {
     let mut map = HashMap::new();
     for i in vec {
@@ -35,7 +34,7 @@ pub fn mode(vec: &Vec<i32>) -> i32 {
     }
     let r: (i32, i32) = map.iter().fold(
         (0, std::i32::MIN),
-        |(k_max, v_max), (k, v)| if v_max < *v { (**k, *v) } else { (k_max, v_max) }
+        |(k_max, v_max), (&k, &v)| if v_max < v { (*k, v) } else { (k_max, v_max) }
     );
 
     r.0
