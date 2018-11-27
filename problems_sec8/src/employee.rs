@@ -19,20 +19,16 @@ impl Employee {
         }
     }
 
-    pub fn add(mut self: Employee, command_line: &[&str]) -> Employee {
+    pub fn add(self: &mut Employee, command_line: &[&str]) {
         println!("Add: {:?}", command_line);
         let employee = command_line[0];
         let department = command_line[2];
 
-        {
-            let db = &mut self.data;
-            // TODO vecでなく赤黒木とかを使うと早くなるけどやってない
-            //      vecにpushしてsortを毎回やっちゃってる
-            db.entry(department.to_string()).or_insert(Vec::new()).push(employee.to_string());
-            db.entry(department.to_string()).and_modify(|v| v.sort());
-        }
-
-        self
+        let db = &mut self.data;
+        // TODO vecでなく赤黒木とかを使うと早くなるけどやってない
+        //      vecにpushしてsortを毎回やっちゃってる
+        db.entry(department.to_string()).or_insert(Vec::new()).push(employee.to_string());
+        db.entry(department.to_string()).and_modify(|v| v.sort());
     }
 
     pub fn list(self: &Employee, command_line: &[&str]) {

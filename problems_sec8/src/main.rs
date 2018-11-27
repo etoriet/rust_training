@@ -111,7 +111,7 @@ fn problem3() {
         let command: Vec<&str> = command_line.split_whitespace().collect();
 
         match command[0] {
-            "Add" => db = db.add(&command[1..]),
+            "Add" => db.add(&command[1..]),
             "List" => db.list(&command[1..]),
             s => println!("unknown command: {}", s),
         }
