@@ -25,17 +25,20 @@ pub fn median(vec: &Vec<i32>) -> f64 {
     }
 }
 
-// Bug: should return multiple values: mode may contain multiple
-pub fn mode(vec: &Vec<i32>) -> i32 {
+// should return multiple values: mode may contain multiple
+pub fn mode(vec: &Vec<i32>) -> Vec<i32> {
     let mut map = HashMap::new();
     for i in vec {
         let count = map.entry(i).or_insert(0);
         *count += 1;
     }
-    let r: (i32, i32) = map.iter().fold(
-        (0, std::i32::MIN),
-        |(k_max, v_max), (&k, &v)| if v_max < v { (*k, v) } else { (k_max, v_max) }
-    );
-
-    r.0
+    match map.values().max() {
+        Some(max_count) =>
+            map.
+            iter().
+            filter(|&(_, v)| v == max_count).
+            map(|(&&k, _)| k).
+            collect(),
+        None => Vec::new(),
+    }
 }

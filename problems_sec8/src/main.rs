@@ -74,7 +74,7 @@ fn problem1() {
     let parsed = parsed.unwrap();
 
     println!("min/max {} / {}", stats::min(&parsed), stats::max(&parsed));
-    println!("mean/median/mode {:.3} / {:.3} / {}",
+    println!("mean/median/mode {:.3} / {:.3} / {:?}",
         stats::mean(&parsed),
         stats::median(&parsed),
         stats::mode(&parsed)
