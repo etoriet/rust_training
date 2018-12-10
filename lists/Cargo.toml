@@ -1,0 +1,7 @@
+[package]
+name = "lists"
+version = "0.1.0"
+authors = ["etoriet <et_ready-to-talk@hotmail.co.jp>"]
+edition = "2018"
+
+[dependencies]
