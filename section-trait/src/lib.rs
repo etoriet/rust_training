@@ -39,8 +39,37 @@ impl Summary for Tweet {
     }
 }
 
+pub fn notify<T: Summary>(item: T) {
+    println!("News: {}", item.summarize());
+}
+
+use std::fmt::Display;
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self {
+            x,
+            y,
+        }
+    }
+}
+
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) -> String {
+        if self.x >= self.y {
+            format!("The largest member is x = {}", self.x)
+        } else {
+            format!("The largest member is y = {}", self.y)
+        }
+    }
+}
+
+
 mod test {
-    use super::{Tweet, NewsArticle, Summary};
+    use super::*;
 
     #[test]
     fn test() {
@@ -61,6 +90,16 @@ mod test {
         };
 
         assert_eq!(news_article.summarize(), String::from("(Read more from torii)"));
+    }
+
+    #[test]
+    fn test_cmp_display() {
+        let pair = Pair {
+            x: 1.0,
+            y: 2.0,
+        };
+        let ret = pair.cmp_display();
+        assert_eq!(ret, String::from("The largest member is y = 2"));
     }
 }
 

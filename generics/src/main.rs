@@ -9,6 +9,9 @@ fn main() {
     println!("largest: {}", large);
     assert_eq!(large, 6000);
 
+    let large = largest_ref(&number_list).expect("non empty");
+    println!("largest: {}", large);
+    assert_eq!(*large, 6000);
 
     let int_p = Point { x: 1, y: 10 };
     let flo_p = Point { x: 1.0, y: 10.0 };
@@ -34,9 +37,25 @@ fn largest<T: PartialOrd + Copy>(slice: &[T]) -> Option<T> {
 
     let mut largest = slice[0];
 
+    for &number in slice {
+        if number > largest {
+            largest = number;
+        }
+    }
+
+    Some(largest)
+}
+
+fn largest_ref<T: PartialOrd>(slice: &[T]) -> Option<&T> {
+    if slice.len() == 0 {
+        return None
+    }
+
+    let mut largest = &slice[0];
+
     for number in slice {
-        if *number > largest {
-            largest = *number;
+        if *number > *largest {
+            largest = number;
         }
     }
 
